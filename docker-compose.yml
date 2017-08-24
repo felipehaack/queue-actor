@@ -1,0 +1,18 @@
+version: '2'
+
+services:
+
+  api-test:
+    build:
+      context: .
+      dockerfile: ./tools/Dockerfile-sbt
+    volumes:
+      - ./:/app
+      - ~/.sbt:/root/.sbt
+      - ~/.ivy2:/root/.ivy2
+      - ~/.m2:/root/.m2
+    command: sbt "~test"
+    environment:
+      - SBT_OPTS=-Dfile.encoding=UTF-8 -Xms512m -Xmx1536m -Xss2m -XX:ReservedCodeCacheSize=256m -XX:+TieredCompilation -XX:+CMSClassUnloadingEnabled -XX:+UseConcMarkSweepGC
+    tty: true
+    stdin_open: true
